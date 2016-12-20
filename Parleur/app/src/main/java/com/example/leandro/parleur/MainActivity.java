@@ -1,5 +1,7 @@
 package com.example.leandro.parleur;
 
+import android.content.Intent;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -18,6 +20,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
+
+    FloatingActionButton fab;
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -51,6 +55,15 @@ public class MainActivity extends AppCompatActivity {
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
+
+        //Floating Action Button starts add words activity
+        fab = (FloatingActionButton)findViewById(R.id.fab_add);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, add.class));
+            }
+        });
 
 
     }
@@ -114,11 +127,11 @@ public class MainActivity extends AppCompatActivity {
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0:
-                    return "LIST";
+                    return "LIJST";
                 case 1:
                     return "TOP 200";
                 case 2:
-                    return "YOUR WORDS";
+                    return "JOUW WOORDEN";
             }
             return null;
         }
