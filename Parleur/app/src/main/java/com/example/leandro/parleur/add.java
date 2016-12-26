@@ -36,6 +36,7 @@ public class add extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Gelieve alle velden in te vullen.",
                             Toast.LENGTH_LONG).show();
                 }else{
+                    //nieuw Word object aanmaken en pushen naar de reference "woorden" in Firebase
                     Word word = new Word(txtWoord.getText().toString(), txtVertaling.getText().toString());
                     mDatabaseReference.child("woorden").push().setValue(word);
                     finish(); //sluit huidige activty en redirect naar MainActivty

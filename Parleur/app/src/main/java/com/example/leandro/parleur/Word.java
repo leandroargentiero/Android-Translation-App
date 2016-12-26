@@ -4,6 +4,7 @@ package com.example.leandro.parleur;
  * Created by Leandro on 20/12/16.
  */
 
+// JAVA OBJECT
 public class Word {
     private String woord, vertaling;
 
