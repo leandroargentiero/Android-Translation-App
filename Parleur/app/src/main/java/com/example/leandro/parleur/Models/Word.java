@@ -1,4 +1,4 @@
-package com.example.leandro.parleur;
+package com.example.leandro.parleur.Models;
 
 /**
  * Created by Leandro on 20/12/16.

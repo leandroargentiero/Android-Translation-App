@@ -7,10 +7,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.leandro.parleur.Models.Word;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-public class add extends AppCompatActivity {
+public class Add_Word extends AppCompatActivity {
     //declaratie van de variabelen
     private Button btnAdd;
     private EditText txtWoord, txtVertaling;
