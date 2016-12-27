@@ -10,8 +10,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.example.leandro.parleur.Models.Word;
+import com.firebase.ui.database.FirebaseListAdapter;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -28,11 +30,12 @@ public class tab1List extends Fragment{
     private ArrayList<String>  mWoorden = new ArrayList<>();
     private ArrayList<String> mVertalingen = new ArrayList<>();
     private ListView mListView;
+    private FirebaseListAdapter<Word> mAdapter;
 
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.tab1_list, container, false);
+        final View view = inflater.inflate(R.layout.tab1_list, container, false);
 
         // Get ListView by ID
         mListView = (ListView)view.findViewById(R.id.listView_list);
@@ -40,44 +43,19 @@ public class tab1List extends Fragment{
         // DB connection
         mDatabase = FirebaseDatabase.getInstance().getReferenceFromUrl("https://examen-mobdev.firebaseio.com/woorden");
 
-        // Create new ArrayAdapter
-        final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
+        //Firebase Adapter
+        mAdapter = new FirebaseListAdapter<Word>(
                 getActivity(),
-                android.R.layout.simple_list_item_2,
-                mWoorden);
-
-
-        mDatabase.addChildEventListener(new ChildEventListener() {
+                Word.class, android.R.layout.simple_list_item_2,
+                mDatabase
+        ) {
             @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                Word newWord = dataSnapshot.getValue(Word.class);
-                mWoorden.add(newWord.getWoord());
-                mVertalingen.add(newWord.getVertaling());
-                arrayAdapter.notifyDataSetChanged();
+            protected void populateView(View v, Word model, int position) {
+                ((TextView)v.findViewById(android.R.id.text1)).setText(model.getWoord());
+                ((TextView)v.findViewById(android.R.id.text2)).setText(model.getVertaling());
             }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-        mListView.setAdapter(arrayAdapter);
-
+        };
+        mListView.setAdapter(mAdapter);
         return view;
     }
 }
