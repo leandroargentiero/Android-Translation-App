@@ -40,6 +40,8 @@ public class Add_Word extends AppCompatActivity {
                     //nieuw Word object aanmaken en pushen naar de reference "woorden" in Firebase
                     Word word = new Word(txtWoord.getText().toString(), txtVertaling.getText().toString());
                     mDatabaseReference.child("woorden").push().setValue(word);
+                    Toast.makeText(getApplication(),"Er werd een nieuw woord toegevoegd.",
+                            Toast.LENGTH_LONG).show();
                     finish(); //sluit huidige activty en redirect naar MainActivty
                 }
 

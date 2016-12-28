@@ -1,8 +1,11 @@
 package com.example.leandro.parleur;
 
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -15,9 +18,17 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 public class MainActivity extends AppCompatActivity {
 
     FloatingActionButton fab;
+
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -52,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
 
-        //Floating Action Button starts Add_Word words activity
+        // Floating Action Button starts Add_Word words activity
         fab = (FloatingActionButton)findViewById(R.id.fab_add);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,8 +72,42 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-    }
+        // Push Notifcation with new firebase entry
+        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReferenceFromUrl("https://examen-mobdev.firebaseio.com/woorden");
+        final NotificationCompat.Builder mbuilder = new NotificationCompat.Builder(this);
+        mDatabase.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
 
+                String newWord = (String) dataSnapshot.child("woord").getValue();
+                mbuilder.setSmallIcon(R.mipmap.ic_launcher);
+                mbuilder.setContentTitle("Nieuw woord: " + newWord);
+                mbuilder.setContentText(newWord + " werd aan Parleur toegevoegd");
+                NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+                notificationManager.notify(1, mbuilder.build());
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
