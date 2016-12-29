@@ -28,7 +28,7 @@
         android:ems="10"
         android:layout_marginTop="33dp"
         android:id="@+id/txtVertaling"
-        android:layout_below="@+id/txtWoord"
+        android:layout_below="@+id/txtTest"
         android:layout_alignLeft="@+id/textView3"
         android:layout_alignStart="@+id/textView3"
         android:hint="Vertaling van het franse woord" />
@@ -39,7 +39,7 @@
         android:inputType="textPersonName"
         android:ems="10"
         android:layout_marginTop="36dp"
-        android:id="@+id/txtWoord"
+        android:id="@+id/txtTest"
         android:layout_below="@+id/textView3"
         android:layout_alignLeft="@+id/txtVertaling"
         android:layout_alignStart="@+id/txtVertaling"

@@ -1,7 +1,6 @@
 package com.example.leandro.parleur;
 
 import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
@@ -23,7 +22,6 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -151,7 +149,7 @@ public class MainActivity extends AppCompatActivity {
                     tab2Top tab2 = new tab2Top();
                     return tab2;
                 case 2:
-                    tab3YourWords tab3 = new tab3YourWords();
+                    tab3MyWords tab3 = new tab3MyWords();
                     return tab3;
             }
             return null;
@@ -171,7 +169,7 @@ public class MainActivity extends AppCompatActivity {
                 case 1:
                     return "TOP 200";
                 case 2:
-                    return "JOUW WOORDEN";
+                    return "MIJN WOORDEN";
             }
             return null;
         }

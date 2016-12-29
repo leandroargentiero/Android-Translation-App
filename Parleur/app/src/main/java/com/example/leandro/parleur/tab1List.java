@@ -8,21 +8,24 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.leandro.parleur.Models.Word;
 import com.firebase.ui.database.FirebaseListAdapter;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-
-import java.util.ArrayList;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 public class tab1List extends Fragment{
 
     private DatabaseReference mDatabase;
-    private ArrayList<String>  mWoorden = new ArrayList<>();
-    private ArrayList<String> mVertalingen = new ArrayList<>();
     private ListView mListView;
     private FirebaseListAdapter<Word> mAdapter;
 
@@ -32,7 +35,7 @@ public class tab1List extends Fragment{
         View view = inflater.inflate(R.layout.tab1_list, container, false);
 
         // Get ListView by ID
-        mListView = (ListView)view.findViewById(R.id.listView_list);
+        mListView = (ListView)view.findViewById(R.id.listView_tab1);
 
         // DB connection
         mDatabase = FirebaseDatabase.getInstance().getReferenceFromUrl("https://examen-mobdev.firebaseio.com/woorden");
@@ -40,16 +43,31 @@ public class tab1List extends Fragment{
         //Firebase Adapter
         mAdapter = new FirebaseListAdapter<Word>(
                 getActivity(),
-                Word.class, R.layout.custom_row_listview,
+                Word.class,
+                R.layout.custom_row_listview,
                 mDatabase
         ) {
             @Override
             protected void populateView(View v, Word model, int position) {
+
+                final String word_key = getRef(position).getKey();
+
                 ((TextView)v.findViewById(R.id.txtWoord)).setText(model.getWoord());
                 ((TextView)v.findViewById(R.id.txtVertaling)).setText(model.getVertaling());
+
+                mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        Toast.makeText(getActivity(), word_key, Toast.LENGTH_SHORT).show();
+                    }
+                });
+
             }
         };
         mListView.setAdapter(mAdapter);
+
         return view;
     }
+
+
 }
