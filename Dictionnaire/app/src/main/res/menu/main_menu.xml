@@ -7,7 +7,19 @@
         android:title="Add word"
         app:showAsAction="always"/>
 
-    <item android:id="@+id/action_settings"
-        android:title="Settings"
+    <item android:id="@+id/action_lijst"
+        android:title="Alle woorden"
+        app:showAsAction="never"/>
+
+    <item android:id="@+id/action_top200"
+        android:title="Top 200 woorden"
+        app:showAsAction="never"/>
+
+    <item android:id="@+id/action_mijnwoorden"
+        android:title="Mijn woorden"
+        app:showAsAction="never"/>
+
+    <item android:id="@+id/action_logout"
+        android:title="Uitloggen"
         app:showAsAction="never"/>
 </menu>

@@ -10,24 +10,39 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class PostActivity extends AppCompatActivity {
 
     private EditText mWoord, mVertaling;
     private Button mBtnAdd;
+
     // Firebase Database reference
     private DatabaseReference mDatabase;
+    private DatabaseReference mDatabaseUsers;
 
+    // Firebase Database Authentication/Users
+    private FirebaseAuth mAuth;
+    private FirebaseUser mCurrentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post);
 
+        // Getting the current user
+        mAuth = FirebaseAuth.getInstance();
+        mCurrentUser = mAuth.getCurrentUser();
+
         // Get root connection and create child node "woorden"
         mDatabase = FirebaseDatabase.getInstance().getReference().child("woorden");
+        mDatabaseUsers = FirebaseDatabase.getInstance().getReference().child("users").child(mCurrentUser.getUid());
 
         // find input fields & button by id
         mWoord = (EditText) findViewById(R.id.txtWoord);
@@ -46,18 +61,33 @@ public class PostActivity extends AppCompatActivity {
     }
 
     private void startPosting() {
-        String woord_val = mWoord.getText().toString().trim();
-        String vertaling_val = mVertaling.getText().toString().trim();
+        final String woord_val = mWoord.getText().toString().trim();
+        final String vertaling_val = mVertaling.getText().toString().trim();
 
         // validate if the input fields are not empty
         if(!TextUtils.isEmpty(woord_val) && !TextUtils.isEmpty(vertaling_val)){
 
             // Push generates unique child id in db "woorden"
-            DatabaseReference newWoord = mDatabase.push();
+            final DatabaseReference newWoord = mDatabase.push();
 
-            newWoord.child("woord").setValue(woord_val);
-            newWoord.child("vertaling").setValue(vertaling_val);
-            newWoord.child("likes").setValue(0);
+            mDatabaseUsers.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+
+                    newWoord.child("woord").setValue(woord_val);
+                    newWoord.child("vertaling").setValue(vertaling_val);
+                    newWoord.child("likes").setValue(0);
+                    newWoord.child("studentID").setValue(mCurrentUser.getUid());
+                    newWoord.child("studentnaam").setValue(dataSnapshot.child("name").getValue());
+
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+
 
             startActivity(new Intent(PostActivity.this, MainActivity.class));
 
@@ -67,6 +97,5 @@ public class PostActivity extends AppCompatActivity {
             Toast.makeText(this, "Toevoegen mislukt! Gelieve alle velden in te vullen", Toast.LENGTH_SHORT).show();
 
         }
-
     }
 }
