@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.ShareActionProvider;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -88,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
                 viewHolder.setStudentnaam(model.getStudentnaam());
                 viewHolder.setLikes(model.getLikes());
 
-
+                // LIKE BUTTON CLICK LISTENER
                 viewHolder.mLikebtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -113,6 +114,21 @@ public class MainActivity extends AppCompatActivity {
                             Toast.makeText(MainActivity.this, "Sorry, je kan maar 5 keer op een woord stemmen.", Toast.LENGTH_SHORT).show();
 
                         }
+
+                    }
+                });
+
+                // SHARE BUTTON CLICK LISTENER
+                viewHolder.mSharebtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                        shareIntent.setType("text/plain");
+                        shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Un mot trés cool sur Dictionnaire.");
+                        shareIntent.putExtra(Intent.EXTRA_TEXT, "Un mot trés cool sur Dictionnaire.");
+                        shareIntent.putExtra(Intent.EXTRA_TEXT, model.getWoord()+ ": " + model.getVertaling());
+                        startActivity(Intent.createChooser(shareIntent, "Deel je woord via: "));
 
                     }
                 });

@@ -1,9 +1,11 @@
 package com.example.leandro.dictionnaire;
 
+import android.app.NotificationManager;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.NotificationCompat;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
@@ -30,6 +32,9 @@ public class PostActivity extends AppCompatActivity {
     // Firebase Database Authentication/Users
     private FirebaseAuth mAuth;
     private FirebaseUser mCurrentUser;
+
+    // Push notification set up
+    NotificationCompat.Builder builder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +68,7 @@ public class PostActivity extends AppCompatActivity {
     private void startPosting() {
         final String woord_val = mWoord.getText().toString().trim();
         final String vertaling_val = mVertaling.getText().toString().trim();
+        builder = new NotificationCompat.Builder(this);
 
         // validate if the input fields are not empty
         if(!TextUtils.isEmpty(woord_val) && !TextUtils.isEmpty(vertaling_val)){
@@ -79,6 +85,13 @@ public class PostActivity extends AppCompatActivity {
                     newWoord.child("likes").setValue(0);
                     newWoord.child("studentID").setValue(mCurrentUser.getUid());
                     newWoord.child("studentnaam").setValue(dataSnapshot.child("name").getValue());
+
+                    // Push notification
+                    builder.setSmallIcon(R.mipmap.ic_launcher);
+                    builder.setContentTitle(dataSnapshot.child("name").getValue() + " voegde een nieuw woord toe");
+                    builder.setContentText(woord_val + " werd aan de lijst toegevoegd.");
+                    NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+                    notificationManager.notify(1, builder.build());
 
                 }
 
