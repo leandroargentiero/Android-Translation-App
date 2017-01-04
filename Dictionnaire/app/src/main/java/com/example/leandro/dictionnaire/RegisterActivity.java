@@ -65,7 +65,7 @@ public class RegisterActivity extends AppCompatActivity {
         if(!TextUtils.isEmpty(naam) && !TextUtils.isEmpty(email) && !TextUtils.isEmpty(paswoord)){
 
             // Progression dialog setup
-            mProgress.setMessage("Registreren...");
+            mProgress.setMessage("Bezig met registreren...");
             mProgress.show();
 
 

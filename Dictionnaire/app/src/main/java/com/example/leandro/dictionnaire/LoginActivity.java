@@ -1,5 +1,6 @@
 package com.example.leandro.dictionnaire;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -22,12 +23,17 @@ public class LoginActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
 
+    private ProgressDialog mProgress;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
         mAuth = FirebaseAuth.getInstance();
+
+        mProgress = new ProgressDialog(this);
 
         mLoginEmail = (EditText) findViewById(R.id.txtLoginEmail);
         mLoginPaswoord = (EditText) findViewById(R.id.txtLoginPaswoord);
@@ -58,15 +64,26 @@ public class LoginActivity extends AppCompatActivity {
 
         if(!TextUtils.isEmpty(email) && !TextUtils.isEmpty(paswoord)){
 
+            // Progression dialog setup
+            mProgress.setMessage("Bezig met in te loggen...");
+            mProgress.show();
+
             mAuth.signInWithEmailAndPassword(email, paswoord).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
 
                     if(task.isSuccessful()){
 
+                        mProgress.dismiss();
+
                         Intent loginIntent = new Intent(LoginActivity.this, MainActivity.class);
                         loginIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(loginIntent);
+
+                    }else{
+
+                        mProgress.dismiss();
+                        Toast.makeText(LoginActivity.this, "Login mislukt! Probeer nog eens.", Toast.LENGTH_SHORT).show();
 
                     }
 
@@ -75,7 +92,7 @@ public class LoginActivity extends AppCompatActivity {
 
         }else{
 
-            Toast.makeText(LoginActivity.this, "Login mislukt! Probeer nog eens.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(LoginActivity.this, "Login mislukt! Gelieve alle velden in te vullen.", Toast.LENGTH_SHORT).show();
 
         }
 

@@ -24,7 +24,7 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="textPersonName"
+        android:inputType="textCapSentences"
         android:background="@drawable/input_outline"
         android:ems="10"
         android:layout_below="@+id/txtWoord"
@@ -36,6 +36,22 @@
         android:textStyle="normal|italic"
         android:padding="10dp"
         android:hint="Vertaling..." />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textCapSentences"
+        android:background="@drawable/input_outline"
+        android:ems="10"
+        android:layout_marginTop="42dp"
+        android:id="@+id/txtWoord"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:textStyle="normal|italic"
+        android:padding="10dp"
+        android:hint="Frans woord..."
+        android:layout_below="@+id/textView"
+        android:layout_alignParentStart="true" />
 
     <Button
         android:text="Toevoegen"
@@ -49,20 +65,4 @@
         android:layout_below="@+id/txtVertaling"
         android:layout_alignStart="@+id/txtVertaling"
         android:layout_alignEnd="@+id/txtVertaling" />
-
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:background="@drawable/input_outline"
-        android:ems="10"
-        android:layout_marginTop="42dp"
-        android:id="@+id/txtWoord"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:textStyle="normal|italic"
-        android:padding="10dp"
-        android:hint="Frans woord..."
-        android:layout_below="@+id/textView"
-        android:layout_alignParentStart="true" />
 </RelativeLayout>
