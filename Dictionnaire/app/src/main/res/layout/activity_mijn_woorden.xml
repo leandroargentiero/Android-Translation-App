@@ -6,10 +6,23 @@
     android:layout_height="match_parent"
     tools:context="com.example.leandro.dictionnaire.MijnWoordenActivity">
 
+    <TextView
+        android:text="Mijn woorden"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView9"
+        android:textStyle="normal|bold"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="11dp" />
+
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:id="@+id/woorden_list_mijn_woorden" />
+        android:id="@+id/woorden_list_mijn_woorden"
+        android:layout_marginTop="17dp"
+        android:layout_below="@+id/textView9"
+        android:layout_alignParentStart="true" />
 </RelativeLayout>

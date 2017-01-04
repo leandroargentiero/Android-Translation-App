@@ -22,20 +22,21 @@ import com.google.firebase.database.Query;
 public class Top200Activity extends AppCompatActivity {
 
     private LinearLayoutManager mLayoutManager;
-
-    private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
     private RecyclerView mWoordenList;
 
     private int mLikes;
     private int mLikeCount = 5;
 
+    private FirebaseAuth mAuth;
+    private FirebaseAuth.AuthStateListener mAuthListener;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_top200);
 
-
+        mAuth = FirebaseAuth.getInstance();
 
         mDatabase = FirebaseDatabase.getInstance().getReference().child("woorden");
 
