@@ -94,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View view) {
 
-                        if (mLikeCount <= 5){
+                        if (mLikeCount <= 5 && mLikeCount > 1){
                             //get current likes + 1
                             mLikes = model.getLikes() + 1;
                             // store new likes
@@ -104,12 +104,17 @@ public class MainActivity extends AppCompatActivity {
 
                             Toast.makeText(MainActivity.this, "Je kan nog " + mLikeCount + " stemmen uitbrengen.", Toast.LENGTH_SHORT).show();
 
-                        }if(mLikeCount == 1){
+                        }else if(mLikeCount == 1){
+                            //get current likes + 1
+                            mLikes = model.getLikes() + 1;
+                            // store new likes
+                            mDatabase.child(post_key).child("likes").setValue(mLikes);
+                            // User has total amout onf 5 likes to use
+                            mLikeCount = mLikeCount - 1;
 
                             Toast.makeText(MainActivity.this, "Opgepast! Je kan nog maar " + mLikeCount + " stem uitbrengen.", Toast.LENGTH_SHORT).show();
 
-                        }
-                        if(mLikeCount <= 0){
+                        }else if(mLikeCount <= 0){
 
                             Toast.makeText(MainActivity.this, "Sorry, je kan maar 5 keer op een woord stemmen.", Toast.LENGTH_SHORT).show();
 
