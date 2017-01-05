@@ -104,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
 
                             Toast.makeText(MainActivity.this, "Je kan nog " + mLikeCount + " stemmen uitbrengen.", Toast.LENGTH_SHORT).show();
 
-                        }else if(mLikeCount == 1){
+                        }else if(mLikeCount  == 2){
                             //get current likes + 1
                             mLikes = model.getLikes() + 1;
                             // store new likes
@@ -112,7 +112,18 @@ public class MainActivity extends AppCompatActivity {
                             // User has total amout onf 5 likes to use
                             mLikeCount = mLikeCount - 1;
 
-                            Toast.makeText(MainActivity.this, "Opgepast! Je kan nog maar " + mLikeCount + " stem uitbrengen.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MainActivity.this, "Opgepast! Je kan nog maar " + mLikes + " stem uitbrengen.", Toast.LENGTH_SHORT).show();
+
+                        }
+                        else if(mLikeCount == 1){
+                            //get current likes + 1
+                            mLikes = model.getLikes() + 1;
+                            // store new likes
+                            mDatabase.child(post_key).child("likes").setValue(mLikes);
+                            // User has total amout onf 5 likes to use
+                            mLikeCount = mLikeCount - 1;
+
+                            Toast.makeText(MainActivity.this, "Opgepast! Je stemmen zijn nu opgebruikt", Toast.LENGTH_SHORT).show();
 
                         }else if(mLikeCount <= 0){
 
